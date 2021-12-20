@@ -36,5 +36,5 @@ class Api
 
 end
 
-api = Api.new("dogs")
-api.create_books
+# api = Api.new("dogs")
+# api.create_books
