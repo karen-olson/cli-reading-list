@@ -14,4 +14,14 @@ class Book
     def self.all
         @@all 
     end
+
+    def show_book(index)
+        puts " "
+        puts "[#{index+1}]"
+        puts "Title: #{self.title}"
+        puts "Author: #{self.authors.join(" ")}"
+        puts "Publisher: #{self.publishing_company}"
+        puts " "
+        puts "-----------------------"
+    end
 end

@@ -28,10 +28,10 @@ class Api
             Book.new(
                 book["volumeInfo"]["title"],
                 book["volumeInfo"]["authors"],
-                book["volumeInfo"]["publisher"]
+                book["volumeInfo"]["publisher"],
+                false
             )
         end
-        binding.pry
     end
 
 end
