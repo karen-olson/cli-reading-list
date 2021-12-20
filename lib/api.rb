@@ -1,4 +1,5 @@
 require_relative "../environment.rb"
+require_relative "book.rb"
 
 
 class Api
@@ -20,11 +21,20 @@ class Api
 
         # Return the first 5 books (in a nested array under a key of "items")
         books["items"][0..4]
+    end
 
+    def create_books
+        books = self.fetch_books.each do |book|
+            Book.new(
+                book["volumeInfo"]["title"],
+                book["volumeInfo"]["authors"],
+                book["volumeInfo"]["publisher"]
+            )
+        end
         binding.pry
     end
 
 end
 
 api = Api.new("dogs")
-api.fetch_books
+api.create_books
