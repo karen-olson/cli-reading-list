@@ -22,8 +22,7 @@ class Cli
     def query_api
         puts "Please enter a search term to look for books."
         user_input
-        binding.pry
-        # api = Api.new(@input)
+        api = Api.new(@input)
     end
 
     def goodbye 
