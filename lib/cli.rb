@@ -84,7 +84,7 @@ class Cli
 
     ### MENU OPTION 1 - SUBMENU: Save books to the reading list
 
-    # First, see whether the user wants to save a book.
+    #   First, see whether the user wants to save a book.
     def save_book?
         puts "Would you like to save one of these books? (Y/N)"
         input = gets.chomp.upcase
@@ -95,7 +95,7 @@ class Cli
         input == "Y" ? true : false
     end
 
-    # If so, save their selected book.
+    #   If so, save their selected book.
     def save_book 
         puts "Which book would you like to save? (1-5)"
         input = gets.chomp.to_i
@@ -104,7 +104,7 @@ class Cli
             input = gets.chomp.to_i
         end
         # Because the Book class saves all book instances the Api has created so far, 
-        #    look for the book's index in the subset of books that match the current query.
+        # look for the book's index in the subset of books that match the current query.
         book = Book.find_by_query(@current_query)[input-1]
         book.save
     end

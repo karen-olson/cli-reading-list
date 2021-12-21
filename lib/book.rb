@@ -12,9 +12,8 @@ class Book
         @@all << self
     end
 
-    def self.all
-        @@all 
-    end
+
+    ### Instance Methods
 
     def show_book(index)
         puts " "
@@ -26,16 +25,23 @@ class Book
         puts "-----------------------"
     end
 
-    def self.find_by_query(query)
-        books = Book.all.filter {|book| book.query == query}
-        books[0..4]
-    end
-
     def save
         self.saved = true
         puts " "
         puts "Saved #{self.title} to reading list."
         puts " "
+    end
+
+
+    ### Class Methods
+
+    def self.all
+        @@all 
+    end
+
+    def self.find_by_query(query)
+        books = Book.all.filter {|book| book.query == query}
+        books[0..4]
     end
 
     def self.reading_list 

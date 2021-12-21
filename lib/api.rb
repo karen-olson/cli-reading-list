@@ -15,7 +15,7 @@ class Api
         response = Net::HTTP.get(uri)
         books = JSON.parse(response)
 
-        # Return the first 5 books (in a nested array under a key of "items")
+        # Return the first 5 books (from a nested array under a key of "items")
         books["items"][0..4]
     end
 
