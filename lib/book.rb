@@ -20,7 +20,7 @@ class Book
         puts " "
         puts "[#{index+1}]"
         puts "Title: #{self.title}"
-        puts "Author: #{self.authors.join(" ")}"
+        puts "Written by: #{self.authors.join(", ")}"
         puts "Publisher: #{self.publishing_company}"
         puts " "
         puts "-----------------------"
@@ -32,9 +32,16 @@ class Book
     end
 
     def save_to_reading_list 
-        puts " "
-        puts "Saving #{self.title} to reading list"
-        puts " "
         self.saved = true
+        puts " "
+        puts "Saved #{self.title} to reading list."
+        puts " "
+    end
+
+    def self.reading_list 
+        puts " "
+        puts "Here is your reading list:"
+        saved_books = Book.all.filter {|book| book.saved == true}
+        saved_books.each_with_index {|book, index| book.show_book(index)}
     end
 end

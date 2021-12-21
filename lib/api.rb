@@ -1,7 +1,3 @@
-require_relative "../environment.rb"
-require_relative "book.rb"
-
-
 class Api
     attr_accessor :query
 
@@ -36,6 +32,3 @@ class Api
     end
 
 end
-
-# api = Api.new("dogs")
-# api.create_books

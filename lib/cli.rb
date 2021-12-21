@@ -4,7 +4,7 @@ class Cli
 
     def initialize 
         @menu_selection = nil
-        @query_input = nil
+        @current_query = nil
         @reading_list = []
     end
 
@@ -21,15 +21,13 @@ class Cli
                 display_books
                 save_book
             elsif @menu_selection == 2
-                puts "You entered 2"
+                display_reading_list
             elsif @menu_selection == 3
-                puts "Exiting the program"
+                puts " "
+                puts "Thanks for using My Reading List. See you next time!"
             end
         end
         
-
-
-        puts "Thanks for using My Reading List. See you next time!"
     end
 
     def self.menu_options 
@@ -45,13 +43,13 @@ class Cli
 
     def query_api
         puts "Please enter a search term."
-        @query_input = gets.chomp
-        api = Api.new(@query_input)
+        @current_query = gets.chomp
+        api = Api.new(@current_query)
         api.create_books
     end
 
     def display_books
-        books = Book.find_by_query(@query_input)
+        books = Book.find_by_query(@current_query)
         books.each_with_index {|book, index| book.show_book(index)}
     end
 
@@ -63,8 +61,12 @@ class Cli
         elsif save == "y"
             puts "Which book would you like to save? (1-5)"
             index = gets.chomp.to_i - 1
-            book = Book.find_by_query(@query_input)[index]
+            book = Book.find_by_query(@current_query)[index]
             book.save_to_reading_list
         end
+    end
+
+    def display_reading_list
+        Book.reading_list
     end
 end
