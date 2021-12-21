@@ -67,7 +67,9 @@ class Cli
     ### MENU OPTION 1: Search for books
 
     def query_api
+        puts " "
         puts "Please enter a search term."
+        puts " "
         @current_query = gets.chomp
         api = Api.new(@current_query)
         api.create_books

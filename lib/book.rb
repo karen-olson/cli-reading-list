@@ -3,11 +3,11 @@ class Book
 
     @@all = []
 
-    def initialize(title, authors, publisher, saved, query)
+    def initialize(title:, authors:, publisher:, saved:, query:)
         @title = title
         @authors = authors
         @publisher = publisher
-        @saved = false
+        @saved = saved
         @query = query
         @@all << self
     end

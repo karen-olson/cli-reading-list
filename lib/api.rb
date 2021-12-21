@@ -22,11 +22,11 @@ class Api
     def create_books
         books = self.fetch_books.each do |book|
             Book.new(
-                book["volumeInfo"]["title"],
-                book["volumeInfo"]["authors"],
-                book["volumeInfo"]["publisher"],
-                false,
-                query
+                title: book["volumeInfo"]["title"],
+                authors: book["volumeInfo"]["authors"] ? book["volumeInfo"]["authors"] : ["No authors listed"],
+                publisher: book["volumeInfo"]["publisher"],
+                saved: false,
+                query: query
             )
         end
     end
