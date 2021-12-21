@@ -3,24 +3,26 @@ class Cli
     @@menu_options = ["search for books", "view reading list", "exit"]
 
     def initialize 
-        @input = nil
+        @menu_selection = nil
+        @query_input = nil
         @reading_list = []
     end
 
     def run
+        puts " "
         puts "Welcome to My Reading List."
         puts " "
 
-        until @input == 3
+        until @menu_selection == 3
             self.display_menu_options
-            @input = gets.chomp.to_i 
-            if @input == 1
+            @menu_selection = gets.chomp.to_i 
+            if @menu_selection == 1
                 query_api
                 display_books
                 save_book
-            elsif @input == 2
+            elsif @menu_selection == 2
                 puts "You entered 2"
-            elsif @input == 3
+            elsif @menu_selection == 3
                 puts "Exiting the program"
             end
         end
@@ -38,22 +40,19 @@ class Cli
         puts "Please choose an option: (1-3)"
         puts " "
         Cli.menu_options.each_with_index{|option, index| puts "#{index+1}. #{option.capitalize}"}
+        puts " "
     end
-
-    # def user_input
-    #     @input = gets.chomp
-    # end
 
     def query_api
         puts "Please enter a search term."
-        query = gets.chomp
-        api = Api.new(query)
+        @query_input = gets.chomp
+        api = Api.new(@query_input)
         api.create_books
     end
 
     def display_books
-        # limit to only showing 5 books on subsequent queries
-        Book.all.each_with_index {|book, index| book.show_book(index)}
+        books = Book.find_by_query(@query_input)
+        books.each_with_index {|book, index| book.show_book(index)}
     end
 
     def save_book 
@@ -62,7 +61,10 @@ class Cli
         if save == "n" 
             return 
         elsif save == "y"
-            puts "Saving your book"
+            puts "Which book would you like to save? (1-5)"
+            index = gets.chomp.to_i - 1
+            book = Book.find_by_query(@query_input)[index]
+            book.save_to_reading_list
         end
     end
 end

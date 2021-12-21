@@ -29,7 +29,8 @@ class Api
                 book["volumeInfo"]["title"],
                 book["volumeInfo"]["authors"],
                 book["volumeInfo"]["publisher"],
-                false
+                false,
+                query
             )
         end
     end
