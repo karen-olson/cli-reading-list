@@ -39,9 +39,15 @@ class Book
     end
 
     def self.reading_list 
-        puts " "
-        puts "Here is your reading list:"
         saved_books = Book.all.filter {|book| book.saved == true}
-        saved_books.each_with_index {|book, index| book.show_book(index)}
+        if saved_books.length == 0
+            puts " "
+            puts "Your reading list is empty. Select 1 to search for books."
+            puts " "
+        else
+            puts " "
+            puts "Here is your reading list:"
+            saved_books.each_with_index {|book, index| book.show_book(index)}
+        end
     end
 end

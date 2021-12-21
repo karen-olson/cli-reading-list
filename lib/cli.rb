@@ -16,7 +16,10 @@ class Cli
             if @menu_selection == 1
                 query_api
                 display_books
-                save_book
+                if save_book? 
+                    save_book
+                end
+                # binding.pry
             elsif @menu_selection == 2
                 display_reading_list
             elsif @menu_selection == 3
@@ -69,17 +72,21 @@ class Cli
         books.each_with_index {|book, index| book.show_book(index)}
     end
 
+    def save_book?
+        puts "Would you like to save one of these books? (Y/N)"
+        input = gets.chomp.upcase
+        if !(input == "Y" || input == "N")
+            puts "Please enter Y for yes or N for no."
+            input = gets.chomp.upcase
+        end
+        input == "Y" ? true : false
+    end
+
     def save_book 
-        puts "Would you like to save one of these books? (y/n)"
-        save = gets.chomp.downcase
-        if save == "n" 
-            return 
-        elsif save == "y"
-            puts "Which book would you like to save? (1-5)"
+        puts "Which book would you like to save? (1-5)"
             index = gets.chomp.to_i - 1
             book = Book.find_by_query(@current_query)[index]
             book.save_to_reading_list
-        end
     end
 
     def display_reading_list
