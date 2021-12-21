@@ -42,9 +42,9 @@ class Cli
 
     def set_menu_selection
         input = gets.chomp.to_i 
-        if !(input == 1 || input == 2 || input == 3)
+        if !(1..3).include?(input)
             puts "Please enter a number between 1 and 3."
-            set_menu_selection
+            input = gets.chomp.to_i
         end
         @menu_selection = input
     end
@@ -84,9 +84,13 @@ class Cli
 
     def save_book 
         puts "Which book would you like to save? (1-5)"
-            index = gets.chomp.to_i - 1
-            book = Book.find_by_query(@current_query)[index]
-            book.save_to_reading_list
+        input = gets.chomp.to_i
+        if !(1..5).include?(input)
+            puts "Please enter a number between 1 and 5."
+            input = gets.chomp.to_i
+        end
+        book = Book.find_by_query(@current_query)[input-1]
+        book.save_to_reading_list
     end
 
     def display_reading_list
