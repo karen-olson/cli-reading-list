@@ -106,7 +106,7 @@ class Cli
         # Because the Book class saves all book instances the Api has created so far, 
         #    look for the book's index in the subset of books that match the current query.
         book = Book.find_by_query(@current_query)[input-1]
-        book.save_to_reading_list
+        book.save
     end
 
 
@@ -117,7 +117,7 @@ class Cli
         Book.reading_list
     end
 
-    
+
 
     ### MENU OPTION 3: Exiting the program
 

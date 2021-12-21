@@ -1,12 +1,12 @@
 class Book
-    attr_accessor :title, :authors, :publishing_company, :saved, :query
+    attr_accessor :title, :authors, :publisher, :saved, :query
 
     @@all = []
 
-    def initialize(title, authors, publishing_company, saved, query)
+    def initialize(title, authors, publisher, saved, query)
         @title = title
         @authors = authors
-        @publishing_company = publishing_company
+        @publisher = publisher
         @saved = false
         @query = query
         @@all << self
@@ -21,7 +21,7 @@ class Book
         puts "[#{index+1}]"
         puts "Title: #{self.title}"
         puts "Written by: #{self.authors.join(", ")}"
-        puts "Publisher: #{self.publishing_company}"
+        puts "Publisher: #{self.publisher}"
         puts " "
         puts "-----------------------"
     end
@@ -31,7 +31,7 @@ class Book
         books[0..4]
     end
 
-    def save_to_reading_list 
+    def save
         self.saved = true
         puts " "
         puts "Saved #{self.title} to reading list."
