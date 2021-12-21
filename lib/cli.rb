@@ -9,13 +9,10 @@ class Cli
     end
 
     def run
-        puts " "
-        puts "Welcome to My Reading List."
-        puts " "
-
+        greeting
         until @menu_selection == 3
             self.display_menu_options
-            @menu_selection = gets.chomp.to_i 
+            set_menu_selection
             if @menu_selection == 1
                 query_api
                 display_books
@@ -23,11 +20,30 @@ class Cli
             elsif @menu_selection == 2
                 display_reading_list
             elsif @menu_selection == 3
-                puts " "
-                puts "Thanks for using My Reading List. See you next time!"
+                exit
             end
         end
-        
+    end
+
+    def greeting 
+        puts " "
+        puts "Welcome to My Reading List."
+        puts " "
+    end
+
+    def exit 
+        puts " "
+        puts "Thanks for using My Reading List. See you next time!"
+        puts " "
+    end
+
+    def set_menu_selection
+        input = gets.chomp.to_i 
+        if !(input == 1 || input == 2 || input == 3)
+            puts "Please enter a number between 1 and 3."
+            set_menu_selection
+        end
+        @menu_selection = input
     end
 
     def self.menu_options 
