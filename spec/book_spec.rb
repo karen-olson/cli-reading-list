@@ -51,32 +51,49 @@ RSpec.describe Book do
         )
     end
 
-    it "#show_book prints the correct list item number, title, author/s, and publisher" do 
-        expected_output = " \n[2]\nTitle: Unstoppable Moses\nWritten by: Tyler James Smith\nPublisher: Flatiron Books\n \n-----------------------\n"
-        expect{ @unstoppable_moses.show_book(1) }.to output(expected_output).to_stdout
-    end
-    
-    it "#save changes saved attribute to true and prints a message to the terminal" do 
-        @unstoppable_moses.save
-        expect(@unstoppable_moses.saved).to be true
-        expect{ @unstoppable_moses.save }.to output(/Saved Unstoppable Moses to reading list./).to_stdout
-    end
-    
-    it ".all returns a list of all book instances" do 
-        expect(Book.all).to include @unstoppable_moses
-        expect(Book.all).to include @winger
-        expect(Book.all.length).to eq 6
+    describe "#show_book" do 
+        it "prints the correct list item number, title, author/s, and publisher" do 
+            expected_output = " \n[2]\nTitle: Unstoppable Moses\nWritten by: Tyler James Smith\nPublisher: Flatiron Books\n \n-----------------------\n"
+            expect{ @unstoppable_moses.show_book(1) }.to output(expected_output).to_stdout
+        end
     end
 
-    it ".find_by_query(query) returns an array with book instances that have matching query attributes" do 
-        expect(Book.find_by_query("Smith")[0]).to eq @unstoppable_moses
-        expect(Book.find_by_query("Smith")[1]).to eq @winger
-    end
-    
-    it ".find_by_query(query) returns only 5 books for each query" do 
-        expect(Book.find_by_query("Smith").length).to eq 5
+    describe "#save" do 
+        it "changes saved attribute to true" do
+            @unstoppable_moses.save
+            expect(@unstoppable_moses.saved).to be true
+        end
+        
+        it "prints a message to the terminal" do
+            expect{ @unstoppable_moses.save }.to output(/Saved Unstoppable Moses to reading list./).to_stdout
+        end 
     end
 
-    it "returns the reading list of all saved books"
-    it "notifies a user if their reading list is empty"
+    describe ".all" do 
+        it "returns a list of all book instances" do 
+            expect(Book.all).to include @unstoppable_moses
+            expect(Book.all).to include @winger
+            expect(Book.all.length).to eq 6
+        end
+    end
+    
+    describe ".find_by_query" do 
+        it "returns an array with book instances that have matching query attributes" do 
+            expect(Book.find_by_query("Smith").map{ |book| book.query == "Smith" }).to eq([true, true, true, true, true])
+            expect(Book.find_by_query("Smith")[0]).to eq @unstoppable_moses
+            expect(Book.find_by_query("Smith")[1]).to eq @winger
+        end
+ 
+        it "returns only 5 books for each query" do 
+            expect(Book.find_by_query("Smith").length).to eq 5
+        end
+    end
+
+    describe ".reading_list" do 
+        it "returns an array containing all saved books" do 
+            # Book.all.each { |book| book.save }
+        end
+
+        it "notifies a user if their reading list is empty"
+    end
 end
