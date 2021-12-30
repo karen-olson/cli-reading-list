@@ -1,11 +1,21 @@
-describe true do 
-    it "is true" do 
-        expect(false).to eq(true)
-    end
-end
+require 'pry'
 
 describe Book do 
-    it "can #show_book information given its index"
+    let(:unstoppable_moses) do 
+        Book.new(
+            title: "Unstoppable Moses",
+            authors: ["Tyler James Smith"],
+            publisher: "Flatiron Books",
+            saved: false,
+            query: "Flatiron Books"
+        )
+    end
+
+    it "#show_book prints the correct list item number, title, author/s, and publisher" do 
+        expected_output = " \n[2]\nTitle: Unstoppable Moses\nWritten by: Tyler James Smith\nPublisher: Flatiron Books\n \n-----------------------\n"
+        expect{ unstoppable_moses.show_book(1) }.to output(expected_output).to_stdout
+    end
+
     it "can be saved"
     it "returns a list of all book instances"
     it "searches all book instances given a query"
