@@ -90,10 +90,18 @@ RSpec.describe Book do
     end
 
     describe ".reading_list" do 
-        it "returns an array containing all saved books" do 
-            # Book.all.each { |book| book.save }
+        it "returns an array containing saved books when one book is saved" do 
+            expect(Book.reading_list.length).to eq 1
         end
 
-        it "notifies a user if their reading list is empty"
+        it "returns an array containing saved books when all books are saved" do
+            Book.all.each { |book| book.save }
+            expect(Book.reading_list.length).to eq 6
+        end
+  
+        it "notifies a user if their reading list is empty (no books are saved)" do 
+            Book.all.each { |book| book.saved = false }
+            expect{Book.reading_list}.to output(/Your reading list is empty. Select 1 to search for books./).to_stdout
+        end
     end
 end
