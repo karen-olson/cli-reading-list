@@ -22,7 +22,11 @@ describe Book do
         expect{ unstoppable_moses.save }.to output(/Saved Unstoppable Moses to reading list./).to_stdout
     end
     
-    it "returns a list of all book instances"
+    it "returns a list of all book instances" do 
+        expect(Book.all).to include(unstoppable_moses)
+    end
+
+
     it "searches all book instances given a query"
     it "returns only 5 books for each query"
     it "returns the reading list of all saved books"
