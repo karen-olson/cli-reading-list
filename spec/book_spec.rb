@@ -53,18 +53,18 @@ RSpec.describe Book do
 
     describe "#show_book" do 
         it "prints the correct list item number, title, author/s, and publisher" do 
-            expected_output = " \n[2]\nTitle: Unstoppable Moses\nWritten by: Tyler James Smith\nPublisher: Flatiron Books\n \n-----------------------\n"
-            expect{ @unstoppable_moses.show_book(1) }.to output(expected_output).to_stdout
+            expected_output = " \n[1]\nTitle: Unstoppable Moses\nWritten by: Tyler James Smith\nPublisher: Flatiron Books\n \n-----------------------\n"
+            expect{ @unstoppable_moses.show_book(0) }.to output(expected_output).to_stdout
         end
     end
 
     describe "#save" do 
-        it "changes saved attribute to true" do
+        it "changes the book's saved attribute to true" do
             @unstoppable_moses.save
             expect(@unstoppable_moses.saved).to be true
         end
         
-        it "prints a message to the terminal" do
+        it "prints a confirmation message to the terminal" do
             expect{ @unstoppable_moses.save }.to output(/Saved Unstoppable Moses to reading list./).to_stdout
         end 
     end
@@ -79,7 +79,7 @@ RSpec.describe Book do
     
     describe ".find_by_query" do 
         it "returns an array with book instances that have matching query attributes" do 
-            expect(Book.find_by_query("Smith").map{ |book| book.query == "Smith" }).to eq([true, true, true, true, true])
+            expect(Book.find_by_query("Smith").filter{ |book| book.query == "Smith" }.length).to eq 5
             expect(Book.find_by_query("Smith")[0]).to eq @unstoppable_moses
             expect(Book.find_by_query("Smith")[1]).to eq @winger
         end
@@ -99,7 +99,7 @@ RSpec.describe Book do
             expect(Book.reading_list.length).to eq 6
         end
   
-        it "notifies a user if their reading list is empty (no books are saved)" do 
+        it "prints a message to the terminal if the reading list is empty (no books are saved)" do 
             Book.all.each { |book| book.saved = false }
             expect{Book.reading_list}.to output(/Your reading list is empty. Select 1 to search for books./).to_stdout
         end
