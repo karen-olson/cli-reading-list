@@ -4,9 +4,10 @@ class Api
     def initialize(query)
         @query = query 
     end
+
+    # Add error handling for invalid searches (ex. space, emoji, alsdkfjlsdfkj)
     
     def fetch_books 
-        # Fetch 5 books based on the user's query.
         # Projection=lite means that not all volume information is included in the response.
         url = "https://www.googleapis.com/books/v1/volumes?q=#{self.query}&maxResults=5&projection=lite"
         
@@ -15,8 +16,7 @@ class Api
         response = Net::HTTP.get(uri)
         books = JSON.parse(response)
 
-        # Return the first 5 books (from a nested array under a key of "items")
-        books["items"][0..4]
+        first_five_books = books["items"][0..4]
     end
 
     def create_books

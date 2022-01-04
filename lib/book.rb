@@ -12,9 +12,6 @@ class Book
         @@all << self
     end
 
-
-    ### Instance Methods
-
     def show_book(index)
         puts " "
         puts "[#{index+1}]"
@@ -31,9 +28,6 @@ class Book
         puts "Saved #{self.title} to reading list."
         puts " "
     end
-
-
-    ### Class Methods
 
     def self.all
         @@all 
