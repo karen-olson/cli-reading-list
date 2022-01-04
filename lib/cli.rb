@@ -29,10 +29,19 @@ class Cli
             display_menu_options
             set_menu_selection
             if @menu_selection == @@search_for_books
-                query_api
-                display_query_results
-                if save_book?
-                    add_to_reading_list
+                query_results = query_api
+                begin 
+                    validate_query_results(query_results)
+                rescue => exception
+                    puts ""
+                    puts exception.message
+                    puts ""
+                    redo
+                else
+                    display_query_results
+                    if save_book?
+                        add_to_reading_list
+                    end
                 end
             elsif @menu_selection == @@view_reading_list
                 display_reading_list
@@ -77,6 +86,10 @@ class Cli
         @current_query = gets.chomp
         api = Api.new(@current_query)
         api.create_books
+    end
+
+    def validate_query_results(query_results)
+        raise RuntimeError.new("Invalid entry. Please try a different search term.") if query_results.is_a?(StandardError)
     end
 
     def display_query_results

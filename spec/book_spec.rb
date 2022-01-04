@@ -1,5 +1,3 @@
-require 'pry'
-
 RSpec.describe Book do 
     before(:context) do 
         @unstoppable_moses = Book.new(
