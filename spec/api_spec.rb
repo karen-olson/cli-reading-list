@@ -1,39 +1,47 @@
 RSpec.describe Api do
     before(:context) do 
-        @api_instances = {
-            dogs: Api.new("dogs"),
-            # hashtag_dogs: Api.new("#dogs")
-        }
-        # @baby_stuff = Api.new("snails")
-        # @blast_off = Api.new("blast-off")
-        # @full_sentence = Api.new("Hi my name is Karen, and I'd like to search for books.")
-        # @space = Api.new(" ")
-        # @emoji = Api.new("🧐")
-        # @nonsense_word = Api.new("dfsdergkljerlk")
+        @lowercase = Api.new("dogs")
+        @uppercase = Api.new("DOGS")
+        @hyphen = Api.new("blast-off")
+        @full_sentence = Api.new("Hi my name is Karen, and I'd like to search for books.")
+        @hashtag = Api.new("#dogs")
+        @space = Api.new(" ")
+        @emoji = Api.new("🧐")
+        @nonsense_word = Api.new("dfsdergkljerlk")
+        @missing_api_info = Api.new("llama")
     end
 
     describe "#fetch_books" do
         it "raises an error when given invalid input" do 
-            # call fetch_books on space, emoji, nonsense word
-            # see if the return value is an error
+            expect{ @hashtag.fetch_books }.to raise_error(StandardError)
+            expect{ @space.fetch_books }.to raise_error(StandardError)
+            expect{ @emoji.fetch_books }.to raise_error(StandardError)
+            expect{ @nonsense_word.fetch_books }.to raise_error(StandardError)
         end
 
-        it "returns 5 books" do 
-            returns_5_books = @api_instances.map do |query, api_instance|
-                books = api_instance.fetch_books
-                expect(books.length).to be 5
-            end
-
-            expect(returns_5_books).not_to include false
+        it "returns 5 books when given valid input" do 
+            expect(@lowercase.fetch_books.length).to be 5
+            expect(@uppercase.fetch_books.length).to be 5
+            expect(@hyphen.fetch_books.length).to be 5
+            expect(@full_sentence.fetch_books.length).to be 5
         end 
     end
 
     describe "#create_books" do 
-        it "creates 5 books"
-
-        it "raises an error if it receives an invalid api response"
-
-        it "returns `No authors listed.`if the API does not contain an authors key"
-
+        it "creates 5 books" do 
+            books = @lowercase.create_books 
+            expect(Book.queried_books.length).to be 5
+        end
+        
+        it "returns an error if it receives an invalid api response" do 
+            expect(@hashtag.create_books).to be_a(StandardError)
+            expect(@emoji.create_books).to be_a(StandardError)
+        end
+        
+        it "returns a book if the API response has missing information" do 
+            books = @missing_api_info.create_books
+            expect(Book.queried_books.length).to be 5
+        end
+        
     end
 end
