@@ -2,7 +2,7 @@ RSpec.describe Api do
     before(:context) do 
         @api_instances = {
             dogs: Api.new("dogs"),
-            hashtag_dogs: Api.new("#dogs")
+            # hashtag_dogs: Api.new("#dogs")
         }
         # @baby_stuff = Api.new("snails")
         # @blast_off = Api.new("blast-off")

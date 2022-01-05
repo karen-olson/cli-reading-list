@@ -1,5 +1,5 @@
 class Book
-    attr_accessor :title, :authors, :publisher, :saved, :query, :queried_books
+    attr_accessor :title, :authors, :publisher, :saved, :query, :saved_books, :queried_books
 
     @@saved_books = []
     @@queried_books = []
@@ -33,7 +33,7 @@ class Book
     end
 
     def self.queried_books
-        @@queried_books
+        @@queried_books[0..4]
     end
 
     def self.reading_list
