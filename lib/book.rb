@@ -26,7 +26,6 @@ class Book
     def save
         self.saved = true
         @@saved_books << self
-        @@queried_books = []
         puts " "
         puts "Saved #{self.title} to reading list."
         puts " "
@@ -34,6 +33,10 @@ class Book
 
     def self.queried_books
         @@queried_books[0..4]
+    end
+
+    def self.set_queried_books(value)
+        @@queried_books = value
     end
 
     def self.reading_list

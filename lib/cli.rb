@@ -42,6 +42,7 @@ class Cli
                     if save_book?
                         add_to_reading_list
                     end
+                    clear_query_results
                 end
             elsif @menu_selection == @@view_reading_list
                 display_reading_list
@@ -114,6 +115,10 @@ class Cli
     def display_query_results
         query_results = Book.queried_books
         query_results.each_with_index {|book, index| book.show_book(index)}
+    end
+
+    def clear_query_results
+        Book.set_queried_books([])
     end
 
 
