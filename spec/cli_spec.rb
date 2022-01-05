@@ -1,33 +1,46 @@
 RSpec.describe Cli do
-    before(:context) do 
-        @cli = Cli.new
-    end
 
-    describe "#set_menu_selection" do
-        it "only accepts numbers 1-3" do 
-            # how to mock user input when testing?
-            @cli.set_menu_selection
-            # binding.pry
+    describe "#validate_number_input" do
+        it "only returns valid numbers" do
+            cli = Cli.new
+            allow(cli).to receive(:get_input).and_return("8", "n", "%", "1")
+            expect(cli.validate_number_input(10, 1..3, "message")).not_to eq 10
+            expect(cli.validate_number_input(7, 1..3, "message")).to eq 1
+        end
+
+        it "returns an integer" do 
+            cli = Cli.new
+            allow(cli).to receive(:get_input).and_return("x", 4, 1)
+            expect(cli.validate_number_input(1, 1..3, "message")).to be_a(Integer)
         end
         
-        it "continues prompting the user until it receives valid input (numbers 1-3)"
+        it "prompts the user until it receives valid input" do 
+            cli = Cli.new
+            allow(cli).to receive(:get_input).and_return("x", 4, 1)
+            expect{ cli.validate_number_input(-3, 1..3, "prompt") }.to output("prompt\nprompt\nprompt\n").to_stdout
+        end
     end
 
-    describe "#validate_query_results" do
-        it "raises an exception if the query results return a StandardError"
-    end
+    describe "#validate_string_input" do 
+        it "only returns valid strings" do 
+            cli = Cli.new
+            allow(cli).to receive(:get_input).and_return(88, "p", "!", "Y")
+            expect(cli.validate_string_input("input", ["Y", "N"], "message")).not_to eq "input"
+            expect(cli.validate_string_input(7, ["Y", "N"], "message")).to eq "Y"
+        end
 
-    describe "#save_book?" do
-        it "is not case-sensitive"
-
-        it "only accepts Y, N, y, and n"
+        it "returns a string" do 
+            cli = Cli.new
+            allow(cli).to receive(:get_input).and_return("x", 4, "n")
+            expect(cli.validate_string_input(100, ["Y", "N"], "message")).to be_a(String)
+        end
         
-        it "continues prompting the user until it receives valid input"
-    end
+        it "prompts the user until it receives valid input" do 
+            cli = Cli.new
+            allow(cli).to receive(:get_input).and_return("x", 4, "y")
+            expect{ cli.validate_string_input(42, ["Y", "N"], "prompt") }.to output("prompt\nprompt\nprompt\n").to_stdout
+        end
 
-    describe "#add_to_reading_list" do
-        it "only accepts numbers 1-5"
-        
-        it "continues prompting the user until it receives valid input (numbers 1-5)"
+
     end
 end

@@ -51,7 +51,30 @@ class Cli
         end
     end
 
+    ### HELPER METHODS
 
+    def validate_number_input(input, valid_options, message)
+        until valid_options.include?(input)
+            puts message
+            input = get_input
+            input = input.to_i if input.class != Integer
+        end
+        input
+    end
+
+    def validate_string_input(input, valid_options, message)
+        until valid_options.include?(input)
+            puts message
+            input = get_input
+            input = input.to_s if input.class != String 
+            input = input.upcase
+        end
+        input
+    end
+
+    def get_input
+        gets.chomp
+    end
 
     ### MENU DISPLAY AND NAVIGATION
 
@@ -67,14 +90,10 @@ class Cli
     end
 
     def set_menu_selection
-        input = gets.chomp.to_i 
-        until (1..3).include?(input)
-            puts "Please enter a number between 1 and 3."
-            input = gets.chomp.to_i
-        end
+        input = get_input.to_i
+        input = validate_number_input(input, (1..3), "Please enter a number between 1 and 3.")
         @menu_selection = input
     end
-
 
 
     ### MENU OPTION 1: Search for books
@@ -83,7 +102,7 @@ class Cli
         puts " "
         puts "Please enter a search term."
         puts " "
-        @current_query = gets.chomp
+        @current_query = get_input
         api = Api.new(@current_query)
         api.create_books
     end
@@ -103,22 +122,15 @@ class Cli
 
     def save_book?
         puts "Would you like to save one of these books? (Y/N)"
-        input = gets.chomp.upcase
-        until ["Y", "N"].include?(input)
-            puts "Please enter Y for yes or N for no."
-            input = gets.chomp.upcase
-        end
+        input = get_input.upcase
+        input = validate_string_input(input, ["Y", "N"], "Please enter Y for yes or N for no.")
         input == "Y" ? true : false
     end
 
     def add_to_reading_list
         puts "Which book would you like to save? (1-5)"
-        input = gets.chomp.to_i
-        until (1..5).include?(input)
-            puts "Please enter a number between 1 and 5."
-            input = gets.chomp.to_i
-        end
-
+        input = get_input.to_i
+        input = validate_number_input(input, (1..5), "Please enter a number between 1 and 5.")
         selected_book = Book.queried_books[input-1]
         selected_book.save
     end
