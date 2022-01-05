@@ -103,7 +103,3 @@ RSpec.describe Book do
         end
     end
 end
-
-# add error handling for invalid input in book class and cli class
-# doublecheck that it's not case sensitive (.find_by_query)
-# main thing for cli_spec is to handle errors.

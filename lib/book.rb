@@ -1,7 +1,8 @@
 class Book
-    attr_accessor :title, :authors, :publisher, :saved, :query
+    attr_accessor :title, :authors, :publisher, :saved, :query, :queried_books
 
-    @@all = []
+    @@saved_books = []
+    @@queried_books = []
 
     def initialize(title:, authors:, publisher:, saved:, query:)
         @title = title
@@ -9,7 +10,7 @@ class Book
         @publisher = publisher
         @saved = saved
         @query = query
-        @@all << self
+        @@queried_books << self
     end
 
     def show_book(index)
@@ -24,30 +25,26 @@ class Book
 
     def save
         self.saved = true
+        @@saved_books << self
+        @@queried_books = []
         puts " "
         puts "Saved #{self.title} to reading list."
         puts " "
     end
 
-    def self.all
-        @@all 
+    def self.queried_books
+        @@queried_books
     end
 
-    def self.find_by_query(query)
-        books = Book.all.filter {|book| book.query == query}
-        books[0..4]
-    end
-
-    def self.reading_list 
-        saved_books = Book.all.filter {|book| book.saved == true}
-        if saved_books.length == 0
+    def self.reading_list
+        if @@saved_books.length == 0
             puts " "
             puts "Your reading list is empty. Select 1 to search for books."
             puts " "
         else
             puts " "
             puts "Here is your reading list:"
-            saved_books.each_with_index {|book, index| book.show_book(index)}
+            @@saved_books.each_with_index {|book, index| book.show_book(index)}
         end
     end
 end

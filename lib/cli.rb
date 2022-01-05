@@ -93,7 +93,7 @@ class Cli
     end
 
     def display_query_results
-        query_results = Book.find_by_query(@current_query)
+        query_results = Book.queried_books
         query_results.each_with_index {|book, index| book.show_book(index)}
     end
 
@@ -119,7 +119,7 @@ class Cli
             input = gets.chomp.to_i
         end
 
-        selected_book = Book.find_by_query(@current_query)[input-1]
+        selected_book = Book.queried_books[input-1]
         selected_book.save
     end
 

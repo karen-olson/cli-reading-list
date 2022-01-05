@@ -1,8 +1,4 @@
 RSpec.describe Api do
-    # create different instances of Api class with different queries
-    # test #fetch_books given each query
-    # test #create_books given each query (decouple from #fetch_books)
-
     before(:context) do 
         @api_instances = {
             dogs: Api.new("dogs"),
@@ -16,27 +12,28 @@ RSpec.describe Api do
         # @nonsense_word = Api.new("dfsdergkljerlk")
     end
 
-        # def mock_create_books(books)
-        #     books.map { |book| {
-        #         title: book["volumeInfo"]["title"],
-        #         authors: book["volumeInfo"]["authors"],
-        #         publisher: book["volumeInfo"]["publisher"],
-        #     }}
-        # end
-
     describe "#fetch_books" do
+        it "raises an error when given invalid input" do 
+            # call fetch_books on space, emoji, nonsense word
+            # see if the return value is an error
+        end
+
         it "returns 5 books" do 
             returns_5_books = @api_instances.map do |query, api_instance|
                 books = api_instance.fetch_books
                 expect(books.length).to be 5
             end
-            
+
             expect(returns_5_books).not_to include false
         end 
+    end
 
-        # it "returns books with valid titles" do 
-        #     call mock_create_books
-        #     expect title to exist, to be a type of string
-        # end 
+    describe "#create_books" do 
+        it "creates 5 books"
+
+        it "raises an error if it receives an invalid api response"
+
+        it "returns `No authors listed.`if the API does not contain an authors key"
+
     end
 end
